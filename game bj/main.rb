@@ -30,12 +30,12 @@ class Main
     puts 'выдача карт игроку...'
     @player.give(2)
     card_info(@player, 'игрока')
-    puts 'выдача карт диллеру...'
+    puts 'выдача карт дилеру...'
     @dealer.give(2)
-    card_info_dealer(@dealer, 'диллера')
+    card_info_dealer(@dealer, 'дилера')
     menu
     card_info(@player, 'игрока')
-    card_info_dealer(@dealer, 'диллера')
+    card_info_dealer(@dealer, 'дилера')
     result_1
     reset
     result_2
@@ -45,7 +45,7 @@ class Main
     if @player.money_player.zero?
       puts 'вы банкрот, накопите нужную сумму, приходите снова)'
     elsif @dealer.money_player.zero?
-      puts 'вы оставили диллера без штанов((('
+      puts 'вы оставили дилера без штанов((('
     else
       game_cycle
     end
@@ -60,7 +60,7 @@ class Main
   def result_1
     puts 'подведем итоги:'
     card_info(@player, 'игрока')
-    card_info(@dealer, 'диллера')
+    card_info(@dealer, 'дилера')
     if @player.score == @dealer.score || (@dealer.score > 21 && @player.score > 21)
       @player.money_player += 10
       @dealer.money_player += 10
@@ -72,7 +72,7 @@ class Main
       @dealer.money_player += 20
       puts 'Вы проиграли!!!'
     end
-    puts "ваш счет #{@player.money_player}, счет диллера #{@dealer.money_player}"
+    puts "ваш счет #{@player.money_player}, счет дилера #{@dealer.money_player}"
   end
 
   def card_info(player, name)
