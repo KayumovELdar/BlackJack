@@ -3,7 +3,7 @@
 require_relative 'cards'
 require_relative 'player'
 class Player
-  attr_accessor :cards_player, :money_player
+  attr_accessor :cards_player, :money_player,:card_p
   attr_reader :score
 
   def initialize
@@ -19,8 +19,8 @@ class Player
 
   def give(namber)
     namber.times do |_x|
-      key = $card.give_rard
-      cards_player.merge!(key => $card.cards_hash[key])
+      key = @card_p.give_rard
+      cards_player.merge!(key => @card_p.cards_hash[key])
       counting(key)
     end
   end

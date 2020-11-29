@@ -8,12 +8,15 @@ class Main
     print "добрай день, введите ваше имя\n"\
 
     @name_player = gets.chomp
+    #@name_player ="r"
     print "добро пожаловать #{@name_player} \n"\
     "Cыграем!\n"\
 
     @player = Player.new
     @dealer = Dealer_player.new
-    $card = Cards.new
+    @card = Cards.new
+    @player.card_p=@card
+    @dealer.card_p=@card
   end
 
   def game_cycle
@@ -22,7 +25,7 @@ class Main
     @player.money_player -= 10
     @dealer.money_player -= 10
     # puts $card.cards_hash
-    $card.cards_sort
+    @card.cards_sort
     # puts $card.cards_hash
     puts 'выдача карт игроку...'
     @player.give(2)
@@ -51,7 +54,7 @@ class Main
   def reset
     @player.reset
     @dealer.reset
-    $card.reset
+    @card.reset
   end
 
   def result_1
@@ -98,6 +101,7 @@ class Main
 
     puts 'введите ключ'
     namber_key = gets.chomp
+    #namber_key = 2
     case namber_key
     when 1
       @dealer.dealer_logic
