@@ -5,7 +5,7 @@ class Game
 
   attr_reader :winner
 
-  def initialize(player,dealer)
+  def initialize(player, dealer)
     @player=player
     @dealer=dealer
   end
@@ -13,13 +13,13 @@ class Game
   def start_game
     @deck = Deck.new
     @deck.shuffle_cards
-    give(@player,2)
-    give(@dealer,2)
+    give(@player, 2)
+    give(@dealer, 2)
     @player.take_money(10)
     @dealer.take_money(10)
   end
 
-  def give(person,namber)
+  def give(person, namber)
     namber.times {person.hand.add_card(@deck.take_card)}
   end
 
@@ -28,7 +28,7 @@ class Game
  end
 
  def take
-   give(@player,1)
+   give(@player, 1)
    dealer_logic
  end
 
@@ -36,7 +36,7 @@ class Game
  end
 
  def dealer_logic
-   give(@dealer,1) if @dealer.hand.score <= 17
+   give(@dealer, 1) if @dealer.hand.score <= 17
  end
 
  def result

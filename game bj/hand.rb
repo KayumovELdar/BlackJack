@@ -27,6 +27,5 @@ class Hand
 
   def reset
     @init_cards = []
-    @score = 0
   end
 end
