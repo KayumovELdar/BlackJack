@@ -6,91 +6,41 @@ require_relative 'dealer_player'
 class Main
   def initialize
     print "добрай день, введите ваше имя\n"\
-
     @name_player = gets.chomp
-    #@name_player ="r"
     print "добро пожаловать #{@name_player} \n"\
     "Cыграем!\n"\
 
-    @player = Player.new
-    @dealer = Dealer_player.new
-    @card = Cards.new
-    @player.card_p=@card
-    @dealer.card_p=@card
+    @player = Player.new(@name_player)
+    @dealer = Player.new("Дилер")
+    @game = Game.new(@player,@dealer)
   end
 
-  def game_cycle
+  def game_run
     puts ''
-    puts 'делаем ставку по 10$'
-    @player.money_player -= 10
-    @dealer.money_player -= 10
-    # puts $card.cards_hash
-    @card.cards_sort
-    # puts $card.cards_hash
-    puts 'выдача карт игроку...'
-    @player.give(2)
-    card_info(@player, 'игрока')
-    puts 'выдача карт дилеру...'
-    @dealer.give(2)
-    card_info_dealer(@dealer, 'дилера')
+    puts 'делаем ставку по 10$ и выдаем по две карты'
+    @game.start_game
+    card_info(@player, @name_player)
+    card_info_dealer(@dealer, 'Диллера')
     menu
-    card_info(@player, 'игрока')
-    card_info_dealer(@dealer, 'дилера')
-    result_1
-    reset
-    result_2
-  end
-
-  def result_2
-    if @player.money_player.zero?
-      puts 'вы банкрот, накопите нужную сумму, приходите снова)'
-    elsif @dealer.money_player.zero?
-      puts 'вы оставили дилера без штанов((('
-    else
-      game_cycle
-    end
-  end
-
-  def reset
-    @player.reset
-    @dealer.reset
-    @card.reset
-  end
-
-  def result_1
-    puts 'подведем итоги:'
-    card_info(@player, 'игрока')
-    card_info(@dealer, 'дилера')
-    if @player.score == @dealer.score || (@dealer.score > 21 && @player.score > 21)
-      @player.money_player += 10
-      @dealer.money_player += 10
-      puts 'ничья!!!'
-    elsif (@player.score > @dealer.score && @player.score <= 21) || @dealer.score > 21
-      @player.money_player += 20
-      puts 'Вы выиграли!!!'
-    else
-      @dealer.money_player += 20
-      puts 'Вы проиграли!!!'
-    end
-    puts "ваш счет #{@player.money_player}, счет дилера #{@dealer.money_player}"
+    @game.result
+    puts "выиграл #{@game.winner}"
+    puts "ваш счет #{@player.money}, счет диллера #{@dealer.money}"
+    @game.reset
+    result
   end
 
   def card_info(player, name)
     print "Карты на руках y #{name}: "
-    player.cards_player.each do |key, _value|
-      print "#{key} "
-    end
-    print "текущий счет: #{player.score}"
-    puts " В кошельке: #{player.money_player} $"
+    player.hand.init_cards.each {|card| puts card.name}
+    print "текущий счет: #{player.hand.score}"
+    puts " В кошельке: #{player.money} $"
   end
 
   def card_info_dealer(player, name)
     print "Карты на руках y #{name}: "
-    player.cards_player.each do |_key, _value|
-      print '[*]  '
-    end
+    player.cards_player.each {puts "[*]"}
     print 'текущий счет: [???]'
-    puts " В кошельке: #{player.money_player} $"
+    puts " В кошельке: #{player.money} $"
   end
 
   def menu
@@ -98,23 +48,32 @@ class Main
     "1. Пропустить \n"\
     "2. Добавить карту\n"\
     "3. Открыть карты\n"\
-
+    
     puts 'введите ключ'
     namber_key = gets.chomp
-    #namber_key = 2
     case namber_key
     when 1
-      @dealer.dealer_logic
+      @game.skip
     when 2
-      @dealer.dealer_logic
-      @player.give(1)
+      @game.take
     when 3
+      @game.open_cards
     else
       puts 'данного ключа не сушествует'
       menu
     end
   end
+
+  def result
+    if @player.money.zero?
+      puts 'вы банкрот, накопите нужную сумму, приходите снова)'
+    elsif @dealer.money.zero?
+      puts 'вы оставили диллера без штанов((('
+    else
+      game_run
+    end
+  end
 end
 
-m = Main.new
-m.game_cycle
+main = Main.new
+main.game_run
