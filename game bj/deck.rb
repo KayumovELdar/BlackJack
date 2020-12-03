@@ -8,7 +8,7 @@ class Deck
     @card_deck = []
     Card::SUITS.each do |suits|
       Card::RANCS.each do |rancs|
-        @card_deck << Card.new(suits + rancs)
+        @card_deck << Card.new(rancs, suit)
       end
     end
   end

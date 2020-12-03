@@ -5,21 +5,24 @@ class Hand
 
   def initialize
     @init_cards = []
-    @score = 0
   end
 
   def add_card(card)
     @init_cards << card
-    counting(card)
   end
 
-  def counting(card)
-    case card.name
-    when /[K1QJ]/ then @score += 10
-    when /A/ then @score += 11
-    when /[2-9]/ then @score += card.name[1].to_i
+  def counting
+    score=0
+    @init_cards.each do |card|
+      case card.rancs
+      when /[K1QJ]/ then score += 10
+      when /A/ then score += 11
+      else
+        score += card.rancs.to_i
+      end
+      score -= 10 if score > 21 && card.rancs =='A'
     end
-    @score -= 10 if @score > 21 && ([card.name] & ['♣A', '♦A', '♥A', '♠A']) != ''
+    return score
   end
 
   def reset

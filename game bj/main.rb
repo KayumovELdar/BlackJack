@@ -32,7 +32,7 @@ class Main
   def card_info(player, name)
     print "Карты на руках y #{name}: "
     player.hand.init_cards.each {|card| puts card.name}
-    print "текущий счет: #{player.hand.score}"
+    print "текущий счет: #{player.hand.counting}"
     puts " В кошельке: #{player.money} $"
   end
 
@@ -48,7 +48,7 @@ class Main
     "1. Пропустить \n"\
     "2. Добавить карту\n"\
     "3. Открыть карты\n"\
-    
+
     puts 'введите ключ'
     namber_key = gets.chomp
     case namber_key

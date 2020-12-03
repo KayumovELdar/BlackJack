@@ -11,7 +11,7 @@ class Game
   end
 
   def start_game
-    @deck=Deck.new
+    @deck = Deck.new
     @deck.shuffle_cards
     give(@player,2)
     give(@dealer,2)
